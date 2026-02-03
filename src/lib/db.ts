@@ -9,17 +9,42 @@ interface ApiResponse<T> {
   error?: { code: string; message: string };
 }
 
+interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
 async function db<T>(method: string, path: string, body?: object): Promise<ApiResponse<T>> {
-  const res = await fetch(API_BASE + path, {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${SERVICE_KEY}`,
-    },
-    body: body ? JSON.stringify(body) : undefined,
-    cache: 'no-store',
-  });
-  return res.json();
+  try {
+    const res = await fetch(API_BASE + path, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${SERVICE_KEY}`,
+      },
+      body: body ? JSON.stringify(body) : undefined,
+      cache: 'no-store',
+    });
+    return res.json();
+  } catch (error) {
+    console.error('DB error:', error);
+    return { ok: false, error: { code: 'fetch_error', message: String(error) } };
+  }
+}
+
+// Helper to extract array from paginated response
+function extractArray<T>(result: ApiResponse<PaginatedResponse<T> | T[]>): T[] {
+  if (!result.ok || !result.data) return [];
+  // Handle both { data: [...] } and direct array
+  if ('data' in result.data && Array.isArray((result.data as PaginatedResponse<T>).data)) {
+    return (result.data as PaginatedResponse<T>).data;
+  }
+  if (Array.isArray(result.data)) {
+    return result.data as T[];
+  }
+  return [];
 }
 
 // === AGENTS ===
@@ -42,8 +67,9 @@ export async function createAgent(agent: Partial<Agent>) {
 }
 
 export async function getAgentByApiKey(apiKey: string) {
-  const result = await db<Agent[]>('GET', `/db/ais_agents?where=api_key:eq:${apiKey}&limit=1`);
-  return result.ok && result.data?.[0] ? { ok: true, data: result.data[0] } : { ok: false };
+  const result = await db<PaginatedResponse<Agent>>('GET', `/db/ais_agents?where=api_key:eq:${apiKey}&limit=1`);
+  const agents = extractArray(result);
+  return agents.length > 0 ? { ok: true, data: agents[0] } : { ok: false };
 }
 
 export async function getAgentById(id: number) {
@@ -55,7 +81,8 @@ export async function updateAgent(id: number, updates: Partial<Agent>) {
 }
 
 export async function getAllAgents() {
-  return db<Agent[]>('GET', '/db/ais_agents?order=created_at:desc&limit=1000');
+  const result = await db<PaginatedResponse<Agent>>('GET', '/db/ais_agents?order=created_at:desc&limit=1000');
+  return { ok: result.ok, data: extractArray(result) };
 }
 
 // === POLICIES ===
@@ -76,7 +103,8 @@ export async function createPolicy(policy: Partial<Policy>) {
 }
 
 export async function getPoliciesForAgent(agentId: number) {
-  return db<Policy[]>('GET', `/db/ais_policies?where=agent_id:eq:${agentId}&where=enabled:eq:1`);
+  const result = await db<PaginatedResponse<Policy>>('GET', `/db/ais_policies?where=agent_id:eq:${agentId}&where=enabled:eq:1`);
+  return { ok: result.ok, data: extractArray(result) };
 }
 
 export async function updatePolicy(id: number, updates: Partial<Policy>) {
@@ -102,11 +130,13 @@ export async function logEvent(event: Partial<Event>) {
 }
 
 export async function getEventsForAgent(agentId: number, limit = 100) {
-  return db<Event[]>('GET', `/db/ais_events?where=agent_id:eq:${agentId}&order=created_at:desc&limit=${limit}`);
+  const result = await db<PaginatedResponse<Event>>('GET', `/db/ais_events?where=agent_id:eq:${agentId}&order=created_at:desc&limit=${limit}`);
+  return { ok: result.ok, data: extractArray(result) };
 }
 
 export async function getRecentThreats(limit = 50) {
-  return db<Event[]>('GET', `/db/ais_events?where=threat_detected:eq:1&order=created_at:desc&limit=${limit}`);
+  const result = await db<PaginatedResponse<Event>>('GET', `/db/ais_events?where=threat_detected:eq:1&order=created_at:desc&limit=${limit}`);
+  return { ok: result.ok, data: extractArray(result) };
 }
 
 // === THREAT SIGNATURES ===
@@ -127,7 +157,8 @@ export async function addThreatSignature(threat: Partial<ThreatSignature>) {
 }
 
 export async function getThreatFeed(limit = 100) {
-  return db<ThreatSignature[]>('GET', `/db/ais_threats?order=created_at:desc&limit=${limit}`);
+  const result = await db<PaginatedResponse<ThreatSignature>>('GET', `/db/ais_threats?order=created_at:desc&limit=${limit}`);
+  return { ok: result.ok, data: extractArray(result) };
 }
 
 export async function incrementThreatCount(id: number, currentCount: number) {
@@ -136,23 +167,36 @@ export async function incrementThreatCount(id: number, currentCount: number) {
 
 // === STATS ===
 export async function getGlobalStats() {
-  const [agents, events, threats] = await Promise.all([
-    getAllAgents(),
-    db<Event[]>('GET', '/db/ais_events?limit=10000'),
-    getThreatFeed(1000),
-  ]);
+  try {
+    const [agentsResult, eventsResult, threatsResult] = await Promise.all([
+      getAllAgents(),
+      db<PaginatedResponse<Event>>('GET', '/db/ais_events?limit=10000'),
+      getThreatFeed(1000),
+    ]);
 
-  const agentList = agents.data || [];
-  const eventList = events.data || [];
-  const threatList = threats.data || [];
+    const agentList = agentsResult.data || [];
+    const eventList = extractArray(eventsResult);
+    const threatList = threatsResult.data || [];
 
-  return {
-    totalAgents: agentList.length,
-    activeAgents: agentList.filter(a => a.status === 'active').length,
-    totalRequests: agentList.reduce((sum, a) => sum + (a.requests_total || 0), 0),
-    threatsBlocked: agentList.reduce((sum, a) => sum + (a.threats_blocked || 0), 0),
-    threatSignatures: threatList.length,
-    recentEvents: eventList.slice(0, 20),
-    recentThreats: threatList.slice(0, 10),
-  };
+    return {
+      totalAgents: agentList.length,
+      activeAgents: agentList.filter(a => a.status === 'active').length,
+      totalRequests: agentList.reduce((sum, a) => sum + (Number(a.requests_total) || 0), 0),
+      threatsBlocked: agentList.reduce((sum, a) => sum + (Number(a.threats_blocked) || 0), 0),
+      threatSignatures: threatList.length,
+      recentEvents: eventList.slice(0, 20),
+      recentThreats: threatList.slice(0, 10),
+    };
+  } catch (error) {
+    console.error('getGlobalStats error:', error);
+    return {
+      totalAgents: 0,
+      activeAgents: 0,
+      totalRequests: 0,
+      threatsBlocked: 0,
+      threatSignatures: 0,
+      recentEvents: [],
+      recentThreats: [],
+    };
+  }
 }
