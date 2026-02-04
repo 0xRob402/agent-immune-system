@@ -65,6 +65,9 @@ export interface Agent {
   claimed_by_twitter?: string;
   claim_tweet_url?: string;
   claimed_at?: string;
+  // Pricing fields (grandfathering)
+  price_per_request?: number; // in USDC (0.001 = launch, 0.002 = standard)
+  price_locked_at?: string; // ISO date when price was locked
   created_at?: string;
 }
 

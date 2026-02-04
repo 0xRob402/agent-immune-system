@@ -39,6 +39,12 @@ export async function POST(request: NextRequest) {
     // Generate API key
     const apiKey = `ais_${crypto.randomBytes(32).toString('hex')}`;
 
+    // Determine pricing (launch vs standard)
+    const launchDeadline = new Date('2026-03-01T00:00:00Z');
+    const now = new Date();
+    const isLaunchPricing = now < launchDeadline;
+    const pricePerRequest = isLaunchPricing ? 0.001 : 0.002;
+
     // Create agent
     const result = await createAgent({
       agent_name,
@@ -50,6 +56,8 @@ export async function POST(request: NextRequest) {
       requests_total: 0,
       threats_blocked: 0,
       status: 'active',
+      price_per_request: pricePerRequest,
+      price_locked_at: now.toISOString(),
     });
 
     if (!result.ok || !result.data) {
@@ -90,6 +98,14 @@ export async function POST(request: NextRequest) {
         tier: agent.subscription_tier,
       },
       api_key: apiKey,
+      pricing: {
+        price_per_request: pricePerRequest,
+        price_locked_at: now.toISOString(),
+        is_launch_pricing: isLaunchPricing,
+        message: isLaunchPricing 
+          ? 'Launch pricing locked! You pay $0.001/request forever (50% off standard rate).'
+          : 'Standard pricing: $0.002/request.',
+      },
       proxy_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://ais.solpay.cash'}/api/proxy`,
       docs_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://ais.solpay.cash'}/docs`,
       message: 'Agent registered successfully. Save your API key - it will not be shown again.',
