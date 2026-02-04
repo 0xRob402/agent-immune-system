@@ -148,13 +148,14 @@ AIS detects:
 
 ## Pricing
 
-| Tier | Price | Requests/Day | Features |
-|------|-------|--------------|----------|
-| Free | $0 | 5,000 | Basic protection, threat feed |
-| Pro | $29/mo | 100,000 | Custom policies, alerts, priority feed |
-| Enterprise | Custom | Unlimited | Dedicated infra, SLA, support |
+| Tier | Price | Requests |
+|------|-------|----------|
+| Free | $0 | 1,000/day |
+| Pay Per Call | $0.0001/request | Unlimited |
 
-Pay with USDC on Solana via [SolPay](https://solpay.cash).
+**Example costs:** 10K requests = $1 | 100K requests = $10
+
+Pay with USDC on Solana via [SolPay](https://solpay.cash). No subscriptions, no credit cards — just x402 micropayments.
 
 ## Architecture
 

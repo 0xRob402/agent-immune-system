@@ -48,7 +48,7 @@ export default function Dashboard() {
               <span className="text-xl font-bold">Agent Immune System</span>
             </Link>
             <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1 mb-4">
-              <span className="text-emerald-400 text-xs font-medium">👤 For Human Operators</span>
+              <span className="text-emerald-400 text-xs font-medium">For Human Operators</span>
             </div>
             <h1 className="text-2xl font-bold mb-2">Operator Dashboard</h1>
             <p className="text-gray-400">Monitor and manage your AI agent's security</p>
@@ -117,7 +117,8 @@ export default function Dashboard() {
             <h1 className="text-2xl font-bold">{agent.agent_name}</h1>
             {agent.claim_status === 'claimed' && (
               <span className="inline-flex items-center gap-1 bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full text-xs font-medium">
-                ✓ Verified
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                Verified
               </span>
             )}
           </div>
@@ -132,9 +133,10 @@ export default function Dashboard() {
             )}
           </div>
           {agent.claim_status !== 'claimed' && (
-            <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+            <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-start gap-2">
+              <svg className="w-5 h-5 text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
               <p className="text-amber-400 text-sm">
-                ⚠️ This agent is not claimed.{' '}
+                This agent is not claimed.{' '}
                 <Link href="/claim" className="underline hover:text-amber-300">Claim ownership</Link> to unlock the full operator dashboard.
               </p>
             </div>
@@ -163,7 +165,10 @@ export default function Dashboard() {
                     <span className="text-gray-500 text-xs">{new Date(event.created_at).toLocaleString()}</span>
                   </div>
                   {event.blocked && (
-                    <span className="text-red-400 text-xs">⚠️ Blocked: {event.block_reason}</span>
+                    <span className="text-red-400 text-xs flex items-center gap-1">
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                      Blocked: {event.block_reason}
+                    </span>
                   )}
                 </div>
               ))}

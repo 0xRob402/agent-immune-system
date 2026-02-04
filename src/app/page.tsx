@@ -161,46 +161,52 @@ export default async function Home() {
             <p className="text-gray-400 text-lg">Start free. Scale as you grow.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             <PricingCard
               tier="Free"
               price="$0"
-              description="For hobbyists and testing"
+              description="Get started instantly"
               features={[
                 "1,000 requests/day",
-                "Basic threat detection",
+                "All threat detection",
                 "Secret redaction",
-                "Community threat feed",
+                "Shared threat feed",
               ]}
             />
             <PricingCard
-              tier="Pro"
-              price="$29"
-              period="/month"
-              description="For production agents"
+              tier="Pay Per Call"
+              price="$0.0001"
+              period="/request"
+              description="Scale without limits"
               features={[
-                "100,000 requests/day",
-                "Advanced threat detection",
-                "Priority threat feed",
-                "Budget controls",
-                "Custom policies",
-                "Email alerts",
+                "Unlimited requests",
+                "Pay only for what you use",
+                "x402 USDC payments",
+                "No commitments",
               ]}
               highlighted
             />
-            <PricingCard
-              tier="Enterprise"
-              price="Custom"
-              description="For teams and fleets"
-              features={[
-                "Unlimited requests",
-                "Dedicated infrastructure",
-                "Custom integrations",
-                "SLA guarantee",
-                "24/7 support",
-                "On-prem option",
-              ]}
-            />
+          </div>
+          
+          <div className="mt-8 bg-gray-900 border border-gray-800 rounded-xl p-6 max-w-3xl mx-auto">
+            <h3 className="font-semibold mb-3">Example Costs</h3>
+            <div className="grid grid-cols-3 gap-4 text-sm">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-white">$0</div>
+                <div className="text-gray-500">1K requests/day</div>
+                <div className="text-gray-400 text-xs">Free tier</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-emerald-400">$1</div>
+                <div className="text-gray-500">10K requests</div>
+                <div className="text-gray-400 text-xs">Light usage</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-emerald-400">$10</div>
+                <div className="text-gray-500">100K requests</div>
+                <div className="text-gray-400 text-xs">Production</div>
+              </div>
+            </div>
           </div>
 
           <p className="text-center text-gray-500 mt-8">
@@ -221,8 +227,8 @@ export default async function Home() {
             {/* For Agents */}
             <div className="bg-gray-900 border border-gray-800 rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center">
-                  <span className="text-2xl">🤖</span>
+                <div className="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                 </div>
                 <h3 className="text-xl font-bold">For AI Agents</h3>
               </div>
@@ -231,19 +237,19 @@ export default async function Home() {
               </p>
               <ul className="space-y-3 mb-6">
                 <li className="flex items-center gap-2 text-sm">
-                  <span className="text-emerald-400">→</span>
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                   <span><code className="text-emerald-400">/api/register</code> — Get API key</span>
                 </li>
                 <li className="flex items-center gap-2 text-sm">
-                  <span className="text-emerald-400">→</span>
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                   <span><code className="text-emerald-400">/api/proxy</code> — Route requests</span>
                 </li>
                 <li className="flex items-center gap-2 text-sm">
-                  <span className="text-emerald-400">→</span>
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                   <span><code className="text-emerald-400">/skill.md</code> — Integration guide</span>
                 </li>
                 <li className="flex items-center gap-2 text-sm">
-                  <span className="text-emerald-400">→</span>
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                   <span>x402 payments via <a href="https://solpay.cash" className="text-emerald-400 hover:underline">SolPay</a></span>
                 </li>
               </ul>
@@ -251,15 +257,15 @@ export default async function Home() {
                 href="/skill.md"
                 className="block w-full border border-blue-500/50 hover:bg-blue-500/10 px-4 py-3 rounded-lg font-medium transition text-center text-blue-400"
               >
-                View Skill File →
+                View Skill File
               </a>
             </div>
 
             {/* For Humans */}
             <div className="bg-gray-900 border border-emerald-500/30 rounded-xl p-8">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center">
-                  <span className="text-2xl">👤</span>
+                <div className="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                 </div>
                 <h3 className="text-xl font-bold">For Human Operators</h3>
               </div>
@@ -268,19 +274,19 @@ export default async function Home() {
               </p>
               <ul className="space-y-3 mb-6">
                 <li className="flex items-center gap-2 text-sm">
-                  <span className="text-emerald-400">✓</span>
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                   <span>Real-time security dashboard</span>
                 </li>
                 <li className="flex items-center gap-2 text-sm">
-                  <span className="text-emerald-400">✓</span>
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                   <span>Tweet-to-claim verification</span>
                 </li>
                 <li className="flex items-center gap-2 text-sm">
-                  <span className="text-emerald-400">✓</span>
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                   <span>Custom threat policies & alerts</span>
                 </li>
                 <li className="flex items-center gap-2 text-sm">
-                  <span className="text-emerald-400">✓</span>
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                   <span>Multi-agent management</span>
                 </li>
               </ul>
@@ -288,7 +294,7 @@ export default async function Home() {
                 href="/claim"
                 className="block w-full bg-emerald-600 hover:bg-emerald-500 px-4 py-3 rounded-lg font-medium transition text-center"
               >
-                Claim Your Agent →
+                Claim Your Agent
               </Link>
             </div>
           </div>

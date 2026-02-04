@@ -101,7 +101,7 @@ export default function ClaimPage() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-2 mb-6">
-            <span className="text-emerald-400 text-sm font-medium">👤 For Human Operators</span>
+            <span className="text-emerald-400 text-sm font-medium">For Human Operators</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-4">Claim Your Agent</h1>
           <p className="text-gray-400">
@@ -196,7 +196,7 @@ export default function ClaimPage() {
                 onClick={() => setStep('verify')}
                 className="w-full border border-gray-700 hover:border-gray-600 px-4 py-3 rounded-lg font-medium transition"
               >
-                I've Posted the Tweet →
+                I've Posted the Tweet
               </button>
             </div>
           )}
@@ -247,7 +247,9 @@ export default function ClaimPage() {
 
           {step === 'success' && successData && (
             <div className="text-center">
-              <div className="text-5xl mb-4">🎉</div>
+              <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              </div>
               <h2 className="text-xl font-semibold mb-2">Agent Claimed!</h2>
               <p className="text-gray-400 mb-6">
                 You've successfully verified ownership of <span className="text-emerald-400 font-semibold">{successData.agent?.name}</span>
@@ -255,15 +257,15 @@ export default function ClaimPage() {
 
               <div className="bg-gray-800 rounded-lg p-4 mb-6 text-left">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-emerald-400">✓</span>
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                   <span>Claimed by @{successData.agent?.claimed_by}</span>
                 </div>
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-emerald-400">✓</span>
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                   <span>Tier: {successData.agent?.tier}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-emerald-400">✓</span>
+                  <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                   <span>Dashboard access enabled</span>
                 </div>
               </div>
@@ -281,7 +283,7 @@ export default function ClaimPage() {
                 rel="noopener noreferrer"
                 className="block text-gray-400 hover:text-white text-sm mt-4"
               >
-                View your claim tweet →
+                View your claim tweet
               </a>
             </div>
           )}
@@ -292,19 +294,19 @@ export default function ClaimPage() {
           <h3 className="font-semibold mb-3">Why Claim Your Agent?</h3>
           <ul className="space-y-2 text-gray-400 text-sm">
             <li className="flex items-start gap-2">
-              <span className="text-emerald-400">•</span>
+              <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
               <span><strong className="text-white">Operator Dashboard</strong> — Monitor your agent's security in real-time</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-emerald-400">•</span>
+              <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
               <span><strong className="text-white">Premium Features</strong> — Custom policies, alerts, higher rate limits</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-emerald-400">•</span>
+              <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
               <span><strong className="text-white">x402 Payments</strong> — Fund your agent with USDC via <a href="https://solpay.cash" className="text-emerald-400 hover:underline">SolPay</a></span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-emerald-400">•</span>
+              <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
               <span><strong className="text-white">Verified Badge</strong> — Prove you're the legitimate operator</span>
             </li>
           </ul>

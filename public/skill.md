@@ -101,48 +101,38 @@ When AIS detects a threat:
 
 ## Pricing & Payments
 
-| Tier | Price | Requests/Day | Features |
-|------|-------|--------------|----------|
-| Free | $0 | 1,000 | Basic protection, threat feed |
-| Pro | $29/mo | 100,000 | Custom policies, alerts, priority feed |
-| Enterprise | Custom | Unlimited | Dedicated infra, SLA, support |
+| Tier | Price | Requests |
+|------|-------|----------|
+| Free | $0 | 1,000/day |
+| Pay Per Call | $0.0001/request | Unlimited |
+
+**Example costs:**
+- 1,000 requests/day = Free
+- 10,000 requests = $1
+- 100,000 requests = $10
 
 ### How Agents Pay (x402 USDC)
 
 AIS uses **x402** — the HTTP payment standard — for agent payments via [SolPay](https://solpay.cash).
 
-**Option 1: Pre-fund Credits**
-```bash
-# Add USDC credits to your agent account
-curl -X POST https://ais.solpay.cash/api/credits \
-  -H "Authorization: Bearer ais_your_key" \
-  -H "Content-Type: application/json" \
-  -d '{"amount_usdc": 10.00, "wallet_address": "your-solana-wallet"}'
-```
+Include the x402 payment header on requests beyond your free tier:
 
-**Option 2: Pay-per-request with x402**
-
-Include the x402 payment header on each request:
 ```bash
 curl -X POST https://ais.solpay.cash/api/proxy \
   -H "Authorization: Bearer ais_your_key" \
-  -H "X-Payment: x402 usdc/solana amount=0.001 ..." \
+  -H "X-Payment: x402 usdc/solana amount=0.0001 ..." \
   -H "Content-Type: application/json" \
   -d '{"tool": "web_fetch", "target_url": "https://api.example.com"}'
 ```
 
-**Pricing:**
-- Free tier: 1,000 requests/day at $0
-- Beyond free tier: $0.0001 per request (0.01¢)
-- Pay only for what you use
-
 **Why x402?**
-- No credit cards or billing accounts
-- Instant, trustless payments on Solana
+- No credit cards or subscriptions
+- Pay only for what you use
+- Instant, trustless payments on Solana  
 - Sub-cent fees, instant settlement
 - Your agent pays directly from its wallet
 
-Learn more: [solpay.cash/x402](https://solpay.cash)
+Learn more: [solpay.cash](https://solpay.cash)
 
 ## For Human Operators
 

@@ -178,7 +178,7 @@ export default function DocsPage() {
                   <tr className="border-b border-gray-800">
                     <th className="py-3 pr-4">Tier</th>
                     <th className="py-3 pr-4">Price</th>
-                    <th className="py-3 pr-4">Requests/Day</th>
+                    <th className="py-3 pr-4">Requests</th>
                     <th className="py-3">Features</th>
                   </tr>
                 </thead>
@@ -186,25 +186,22 @@ export default function DocsPage() {
                   <tr className="border-b border-gray-800">
                     <td className="py-3 pr-4 font-medium text-white">Free</td>
                     <td className="py-3 pr-4">$0</td>
-                    <td className="py-3 pr-4">5,000</td>
-                    <td className="py-3">Basic protection, community threat feed</td>
-                  </tr>
-                  <tr className="border-b border-gray-800">
-                    <td className="py-3 pr-4 font-medium text-emerald-400">Pro</td>
-                    <td className="py-3 pr-4">$29/mo</td>
-                    <td className="py-3 pr-4">100,000</td>
-                    <td className="py-3">Custom policies, priority feed, alerts</td>
+                    <td className="py-3 pr-4">1,000/day</td>
+                    <td className="py-3">All threat detection, secret redaction, threat feed</td>
                   </tr>
                   <tr>
-                    <td className="py-3 pr-4 font-medium text-white">Enterprise</td>
-                    <td className="py-3 pr-4">Custom</td>
+                    <td className="py-3 pr-4 font-medium text-emerald-400">Pay Per Call</td>
+                    <td className="py-3 pr-4">$0.0001/req</td>
                     <td className="py-3 pr-4">Unlimited</td>
-                    <td className="py-3">Dedicated infra, SLA, 24/7 support</td>
+                    <td className="py-3">Pay only for what you use via x402 USDC</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <p className="text-gray-500 mt-4">Pay with USDC on Solana via <a href="https://solpay.cash" className="text-emerald-400 hover:underline">SolPay</a>. Instant settlement.</p>
+            <div className="mt-4 text-sm text-gray-400">
+              <strong>Example:</strong> 10K requests = $1 | 100K requests = $10
+            </div>
+            <p className="text-gray-500 mt-4">Pay with USDC on Solana via <a href="https://solpay.cash" className="text-emerald-400 hover:underline">SolPay</a>. No subscriptions, no credit cards.</p>
           </Section>
 
         </div>
