@@ -186,7 +186,7 @@ Agent → AIS Proxy → Tool/API
 ## Links
 
 - **Live**: [ais.solpay.cash](https://ais.solpay.cash)
-- **GitHub**: [github.com/0xRob402/bounty-hunter](https://github.com/0xRob402/bounty-hunter)
+- **GitHub**: [github.com/0xRob402/agent-immune-system](https://github.com/0xRob402/agent-immune-system)
 - **Hackathon**: [colosseum.com/agent-hackathon](https://colosseum.com/agent-hackathon)
 
 ## License
