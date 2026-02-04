@@ -2,7 +2,7 @@
 // Uses SolPay Facilitator for USDC payments on Solana
 
 const SOLPAY_FACILITATOR = process.env.SOLPAY_FACILITATOR_URL || 'https://x402.solpay.cash';
-const AIS_WALLET = process.env.AIS_WALLET_ADDRESS || '2BcjnU1sSv2f4Uk793ZY59U41LapKMggYmwhiPDrhHfs';
+const AIS_WALLET = (process.env.AIS_WALLET_ADDRESS || '2BcjnU1sSv2f4Uk793ZY59U41LapKMggYmwhiPDrhHfs').trim();
 
 // Free tier limits
 const FREE_TIER_DAILY_LIMIT = 1000;
