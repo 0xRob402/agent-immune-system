@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAgentByApiKey, updateAgent, logEvent, addThreatSignature, getPoliciesForAgent } from '@/lib/db';
 import { scanForThreats, scanAndRedactSecrets, generateSignatureHash, checkRateLimit } from '@/lib/threats';
+import { checkPaymentRequired, parsePaymentHeader, verifyPayment, generate402Response } from '@/lib/payments';
 
 export const dynamic = 'force-dynamic';
+
+// Free tier daily limit
+const FREE_TIER_DAILY_LIMIT = 1000;
 
 // Tier limits
 const TIER_LIMITS = {
@@ -82,6 +86,48 @@ export async function POST(request: NextRequest) {
         },
         { status: 429 }
       );
+    }
+
+    // Payment check (x402)
+    const pricePerRequest = agent.price_per_request || 0.001; // Default to launch pricing
+    const paymentRequirement = checkPaymentRequired(agent.requests_today || 0, pricePerRequest);
+
+    if (paymentRequirement.required) {
+      // Check for X-Payment header
+      const paymentHeader = request.headers.get('x-payment');
+      const parsedPayment = parsePaymentHeader(paymentHeader);
+
+      if (!parsedPayment.valid) {
+        // No valid payment - return 402
+        return NextResponse.json(
+          generate402Response(paymentRequirement),
+          { status: 402 }
+        );
+      }
+
+      // Verify payment with SolPay facilitator
+      const verification = await verifyPayment(
+        parsedPayment.signature!,
+        paymentRequirement.amount_usdc
+      );
+
+      if (!verification.valid) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error: 'Payment verification failed',
+            code: 'payment_invalid',
+            details: verification.error,
+            payment: generate402Response(paymentRequirement).payment,
+          },
+          { status: 402 }
+        );
+      }
+
+      // Payment verified - update agent credits/stats
+      await updateAgent(agent.id!, {
+        credits_usdc: (agent.credits_usdc || 0) + verification.amount_paid!,
+      });
     }
 
     // Scan input data for threats
