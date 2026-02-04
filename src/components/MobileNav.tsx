@@ -43,13 +43,13 @@ export default function MobileNav() {
             >
               Docs
             </Link>
-            <Link 
+            <a 
               href="/skill.md" 
               className="text-gray-400 hover:text-white transition py-2"
               onClick={() => setIsOpen(false)}
             >
               For Agents
-            </Link>
+            </a>
             <Link 
               href="/api/register" 
               className="bg-emerald-600 hover:bg-emerald-500 px-4 py-3 rounded-lg font-medium transition text-center"

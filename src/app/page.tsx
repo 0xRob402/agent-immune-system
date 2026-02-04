@@ -22,7 +22,7 @@ export default async function Home() {
           <div className="hidden md:flex items-center gap-6">
             <Link href="/dashboard" className="text-gray-400 hover:text-white transition">Dashboard</Link>
             <Link href="/docs" className="text-gray-400 hover:text-white transition">Docs</Link>
-            <Link href="/skill.md" className="text-gray-400 hover:text-white transition">For Agents</Link>
+            <a href="/skill.md" className="text-gray-400 hover:text-white transition">For Agents</a>
             <Link href="/api/register" className="bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-lg font-medium transition">
               Get Started
             </Link>
