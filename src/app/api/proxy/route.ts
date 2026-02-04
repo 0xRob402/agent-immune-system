@@ -90,7 +90,14 @@ export async function POST(request: NextRequest) {
 
     // Payment check (x402)
     const pricePerRequest = agent.price_per_request || 0.001; // Default to launch pricing
-    const paymentRequirement = checkPaymentRequired(agent.requests_today || 0, pricePerRequest);
+    
+    // Test mode: force payment required with ?test_payment=true or X-Test-Payment header
+    const testPayment = request.nextUrl.searchParams.get('test_payment') === 'true' ||
+                        request.headers.get('x-test-payment') === 'true';
+    
+    const paymentRequirement = testPayment
+      ? { required: true, amount_usdc: pricePerRequest, recipient: '2BcjnU1sSv2f4Uk793ZY59U41LapKMggYmwhiPDrhHfs', scheme: 'x402', network: 'solana', facilitator: 'https://x402.solpay.cash' }
+      : checkPaymentRequired(agent.requests_today || 0, pricePerRequest);
 
     if (paymentRequirement.required) {
       // Check for X-Payment header
